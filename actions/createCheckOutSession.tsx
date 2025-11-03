@@ -43,13 +43,14 @@ const createCheckoutSession = async (
       items.map((item) => ({
         price_data: {
           currency: "usd",
-          unit_amount: Math.round(item.product.price * 100),
+          unit_amount: Math.round((item.product.price || 0) * 100),
+
           product_data: {
             name: item.product.name || "Unnamed Product",
             description: item.product.description || "",
             metadata: { id: item.product._id },
             images:
-              item.product.images?.length > 0
+              item.product.images && item.product.images.length > 0
                 ? [urlFor(item.product.images[0]).url()]
                 : undefined,
           },

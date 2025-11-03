@@ -2,9 +2,16 @@ import { defineQuery } from "next-sanity";
 
 const BRAND_QUERY = defineQuery(`*[_type=='brand']|order(name asc)`);
 const BLOG_QUERY = defineQuery(`*[_type=='blog']|order(name asc)`);
-const SINGLE_BLOG_QUERY = defineQuery(
-  `*[_type=='blog' && slug.current == $slug]|order(name asc)`
-);
+const SINGLE_BLOG_QUERY = defineQuery(`
+  *[_type == "blog" && slug.current == $slug][0]{
+    ...,
+    blogcategories[]->{
+      _id,
+      title,
+      slug
+    }
+  }
+`);
 const BRAND_SINGLE_QUERY = defineQuery(
   `*[_type=='product' && slug.current == $slug] | order(name asc) {
     "brandName": brand->title

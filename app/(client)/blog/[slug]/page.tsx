@@ -2,16 +2,10 @@ import { getSingleBlog } from "@/sanity/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
 import React from "react";
-
-type Props = {
-  params: {
-    slug: string;
-  };
-};
-type BlogCategory = {
-  title: string;
-};
-const page = async ({ params }: Props) => {
+import Image from "next/image";
+import { Blog, Blogcategory } from "@/sanity.types";
+import { PageProps } from "next";
+const Page = async ({ params, searchParams }: PageProps<{ slug: string }>) => {
   const blog = await getSingleBlog(params.slug);
 
   if (!blog) return <div className="text-center py-20">Blog not found</div>;
@@ -20,7 +14,7 @@ const page = async ({ params }: Props) => {
     <div className="max-w-3xl mx-auto py-10 mt-20 px-4">
       {/* 🖼️ الصورة الرئيسية */}
       {blog.mainImage && (
-        <img
+        <Image
           src={urlFor(blog.mainImage).url()}
           alt={blog.title}
           className="w-full h-full object-cover rounded-lg mb-6"
@@ -39,9 +33,9 @@ const page = async ({ params }: Props) => {
       {/* 🏷️ التصنيفات */}
       {blog.blogcategories?.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-6">
-          {blog.blogcategories.map((cat: BlogCategory) => (
+          {blog.blogcategories.map((cat) => (
             <span
-              key={cat.title}
+              key={cat._id}
               className="bg-shop_light_green text-white px-3 py-1 rounded-full text-sm"
             >
               {cat.title}
@@ -58,4 +52,4 @@ const page = async ({ params }: Props) => {
   );
 };
 
-export default page;
+export default Page;

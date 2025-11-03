@@ -4,8 +4,11 @@ import { Title } from "@/components/text";
 import { Category } from "@/sanity.types";
 import { getCategories } from "@/sanity/queries";
 import React from "react";
-
-const CategoryPage = async ({ params }: { params: { slug: string } }) => {
+import { PageProps } from "next";
+const CategoryPage = async ({
+  params,
+  searchParams,
+}: PageProps<{ slug: string }>) => {
   const categories = await getCategories();
   const { slug } = await params;
   return (

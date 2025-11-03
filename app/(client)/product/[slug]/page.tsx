@@ -18,11 +18,10 @@ import { FiShare2 } from "react-icons/fi"; // ✅ من Feather Icons
 import { useState } from "react";
 import ReviewsOfProduct from "@/components/ReviewsOfProduct";
 import AddToWishListButton from "@/components/AddToWishListButton";
+import { PageProps } from "next";
 export default async function SingleProductPage({
   params,
-}: {
-  params: { slug: string };
-}) {
+}: PageProps<{ slug: string }>) {
   const product = await getProductBySlug(params.slug);
   const isStock = product?.stock > 0;
   const icons = [
