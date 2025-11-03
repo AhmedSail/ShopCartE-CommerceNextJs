@@ -1,0 +1,9 @@
+import { SearchIcon } from "lucide-react";
+
+export default function Search() {
+  return (
+    <div>
+      <SearchIcon className="w-5 h-5 hover:text-shop_light_green hoverEffect" />
+    </div>
+  );
+}
