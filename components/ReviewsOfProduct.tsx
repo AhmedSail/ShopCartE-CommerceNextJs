@@ -160,9 +160,9 @@ const ReviewsOfProduct = () => {
               <p>
                 The shirt was not the fabric I believed it to be. It says
                 Classic Fit but was made like the older versions, not the soft
-                cotton like my others. I don't understand how the labels are the
-                same but a completely different shirt. Oh well, stuck with it
-                now.
+                cotton like my others. I don&apos;t understand how the labels
+                are the same but a completely different shirt. Oh well, stuck
+                with it now.
               </p>
             </div>
             <div className="flex flex-col gap-2">
@@ -248,7 +248,7 @@ const ReviewsOfProduct = () => {
               </div>
               <p>
                 My son loved this Jacket for his Senior Prom… He got sooo many
-                compliments! He is slim build 5'11 and 150lbs … I ordered a
+                compliments! He is slim build 5&apos;11 and 150lbs … I ordered a
                 large … it was a little big … but it was fine!
               </p>
             </div>

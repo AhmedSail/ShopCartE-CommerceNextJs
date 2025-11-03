@@ -8,7 +8,9 @@ type Props = {
     slug: string;
   };
 };
-
+type BlogCategory = {
+  title: string;
+};
 const page = async ({ params }: Props) => {
   const blog = await getSingleBlog(params.slug);
 
@@ -37,7 +39,7 @@ const page = async ({ params }: Props) => {
       {/* 🏷️ التصنيفات */}
       {blog.blogcategories?.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-6">
-          {blog.blogcategories.map((cat: any) => (
+          {blog.blogcategories.map((cat: BlogCategory) => (
             <span
               key={cat.title}
               className="bg-shop_light_green text-white px-3 py-1 rounded-full text-sm"

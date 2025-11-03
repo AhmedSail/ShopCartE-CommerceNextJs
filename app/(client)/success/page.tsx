@@ -38,9 +38,9 @@ const SuccessPage = () => {
         </motion.h1>
 
         <p className="text-gray-700 mb-2">
-          Thank you for your purchase. We're processing your order and will ship
-          it soon. A confirmation email with your order details will be sent to
-          your inbox shortly.
+          Thank you for your purchase. We&apos;re processing your order and will
+          ship it soon. A confirmation email with your order details will be
+          sent to your inbox shortly.
         </p>
 
         <motion.div
@@ -55,7 +55,7 @@ const SuccessPage = () => {
 
         <div className="text-left mb-6">
           <h2 className="text-md font-semibold text-gray-800 mb-2">
-            What's Next?
+            What&apos;s Next?
           </h2>
           <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
             <li>Check your email for your order confirmation</li>

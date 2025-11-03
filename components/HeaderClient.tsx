@@ -12,13 +12,54 @@ import Logo from "./Logo";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import MobileMenu from "./MobileMenu";
-
+export type Order = {
+  _id: string;
+  _createdAt: string;
+  orderNumber: string;
+  invoice?: {
+    id?: string;
+    number?: string;
+    hosted_invoice_url?: string;
+  };
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId: string;
+  clerkUserId: string;
+  customerName: string;
+  email: string;
+  stripePaymentIntentId: string;
+  products: {
+    product: {
+      _ref: string;
+      _type: "reference";
+    };
+    quantity: number;
+  }[];
+  totalPrice: number;
+  currency: string;
+  amountDiscount: number;
+  address?: {
+    state?: string;
+    zip?: string;
+    city?: string;
+    address?: string;
+    name?: string;
+  };
+  status?:
+    | "pending"
+    | "processing"
+    | "paid"
+    | "shipped"
+    | "out_for_delivery"
+    | "delivered"
+    | "cancelled";
+  orderDate: string;
+};
 const HeaderClient = ({
   userId,
   orders,
 }: {
   userId: string | null;
-  orders: any[] | null;
+  orders: Order[] | null;
 }) => {
   return (
     <div>

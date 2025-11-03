@@ -19,7 +19,7 @@ export default function NoAccessToCart() {
           </button>
         </SignInButton>
         <h1 className="text-shop_light_text font-semibold text-sm">
-          Don't have an account?
+          Don&apos;t have an account?
         </h1>
         <SignUpButton>
           <button className="rounded-sm w-full py-2 cursor-pointer  font-semibold shadow border  text-black">
