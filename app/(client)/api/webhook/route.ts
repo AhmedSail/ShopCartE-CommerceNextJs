@@ -10,7 +10,7 @@ import Stripe from "stripe";
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const headerList = headers();
-  // @ts-ignore
+  // @ts-expect-error
   const sig = headerList.get("stripe-signature") as string | null;
 
   if (!sig) {

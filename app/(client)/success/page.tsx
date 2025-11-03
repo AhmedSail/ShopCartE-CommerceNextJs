@@ -59,7 +59,7 @@ const SuccessPage = () => {
           </h2>
           <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
             <li>Check your email for your order confirmation</li>
-            <li>You’ll receive shipping updates and delivery times</li>
+            <li>You&apos;ll receive shipping updates and delivery times</li>
           </ul>
         </div>
 
