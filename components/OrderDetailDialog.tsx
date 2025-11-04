@@ -19,15 +19,20 @@ import {
   TableCell,
 } from "./ui/table";
 import Image from "next/image";
-import { MY_ORDER_QUERY } from "@/sanity/queries/query";
 import { urlFor } from "@/sanity/lib/image";
+import { Order } from "@/sanity.types";
 
 interface Props {
-  order: MY_ORDER_QUERY[number] | null;
+  order: Order | null;
   isOpen: boolean;
   onClose: () => void;
 }
-
+const formatDate = (date: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(date));
 const OrderDetailDialog = ({ order, isOpen, onClose }: Props) => {
   if (!order) return null;
   const formatPrice = (amount: number, currency: string = "USD") =>
@@ -42,14 +47,9 @@ const OrderDetailDialog = ({ order, isOpen, onClose }: Props) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Order #{order.orderNumber}</DialogTitle>
+          <DialogTitle>Order #{order?.orderNumber}</DialogTitle>
           <DialogDescription>
-            Placed on{" "}
-            {new Intl.DateTimeFormat("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }).format(new Date(order.orderDate))}
+            Placed on {formatDate(order.orderDate!)}
           </DialogDescription>
         </DialogHeader>
 
@@ -94,12 +94,13 @@ const OrderDetailDialog = ({ order, isOpen, onClose }: Props) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {order.products.map((p, i) => {
-                  const name = p.product?.name || "—";
+                {order?.products?.map((p, i) => {
                   const quantity = p.quantity || 0;
                   const price = p.product?.price || 0;
                   const total = price * quantity;
-                  const imageUrl = urlFor(p.product?.images[0]).url();
+                  const imageUrl = p.product?.images?.[0]
+                    ? urlFor(p.product.images[0]).url()
+                    : null;
 
                   return (
                     <TableRow key={i}>
@@ -107,7 +108,7 @@ const OrderDetailDialog = ({ order, isOpen, onClose }: Props) => {
                         {imageUrl ? (
                           <Image
                             src={imageUrl}
-                            alt={name}
+                            alt=""
                             width={40}
                             height={40}
                             className="rounded-md object-cover"
@@ -129,7 +130,7 @@ const OrderDetailDialog = ({ order, isOpen, onClose }: Props) => {
         <div>
           <span className="text-right font-semibold">Total Price:</span>
           <span className="font-bold text-shop_dark_green">
-            {formatPrice(order.totalPrice, order.currency)}
+            {formatPrice(order?.totalPrice ?? 0, order.currency)}
           </span>
         </div>
         <div className="flex justify-end mt-6">

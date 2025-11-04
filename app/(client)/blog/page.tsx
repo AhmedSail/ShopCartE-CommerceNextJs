@@ -1,5 +1,6 @@
 import Container from "@/components/Container";
 import { Title } from "@/components/text";
+import { Blog } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 import { getAllBlog } from "@/sanity/queries";
 import dayjs from "dayjs";
@@ -9,7 +10,7 @@ import Link from "next/link";
 import React from "react";
 
 const BlogPage = async () => {
-  const blogs = await getAllBlog();
+  const blogs: Blog[] = await getAllBlog();
   return (
     <div>
       <div className="mt-20">
@@ -19,7 +20,7 @@ const BlogPage = async () => {
             {blogs?.map((b) => (
               <div key={b._id} className="rounded-lg">
                 {b?.mainImage && (
-                  <Link href={`/blog/${b?.slug.current}`}>
+                  <Link href={`/blog/${b?.slug?.current}`}>
                     <Image
                       src={urlFor(b?.mainImage).url()}
                       alt="blog image"
@@ -45,12 +46,12 @@ const BlogPage = async () => {
                     <p className="flex items-center gap-1 text-lightcolor relative group hover:cursor-pointer hover:text-shop_dark_green hoverEffect">
                       <Calendar size={15} />{" "}
                       {dayjs(b?.publishedAt).format("MMMM D, YYYY")}
-                      <span className="absolute left-0 -bottom-1 bg-lightcolor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect"></span>
+                      <span className="absolute left-0 -bottom-1 bg-lightcolor/30 inline-block w-full  group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect"></span>
                     </p>
                     <p></p>
                   </div>
                   <Link
-                    href={`/blog/${b?.slug.current}`}
+                    href={`/blog/${b?.slug?.current}`}
                     className="text-base font-semibold tracking-wide mt-5 line-clamp-2 hover:text-shop_dark_green hoverEffect"
                   >
                     {b?.title}

@@ -1,14 +1,12 @@
 "use client";
 
 import useStore from "@/store";
-import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 
 const SuccessPage = () => {
-  const { user } = useUser();
   const { resetCart } = useStore();
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get("orderNumber");

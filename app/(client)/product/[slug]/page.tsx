@@ -7,22 +7,22 @@ import AddToCartBtn from "@/components/AddToCartButton";
 import Container from "@/components/Container";
 import { StarIcon, Truck } from "lucide-react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { Accordion } from "@radix-ui/react-accordion";
-import Favorite from "@/components/Favorite";
 import ImageView from "@/components/ImageView";
 import ProductCharachristic from "@/components/ProductCharachristic";
 import { RxBorderSplit } from "react-icons/rx";
 import { FaRegQuestionCircle } from "react-icons/fa"; // ✅ من FontAwesome
-import { TbTruckDelivery, TbTruckReturn } from "react-icons/tb"; // ✅ من Tabler Icons
+import { TbTruckDelivery } from "react-icons/tb"; // ✅ من Tabler Icons
 import { FiShare2 } from "react-icons/fi"; // ✅ من Feather Icons
-import { useState } from "react";
 import ReviewsOfProduct from "@/components/ReviewsOfProduct";
 import AddToWishListButton from "@/components/AddToWishListButton";
-import { PageProps } from "next";
+
 export default async function SingleProductPage({
   params,
-}: PageProps<{ slug: string }>) {
-  const product = await getProductBySlug(params.slug);
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
   const isStock = product?.stock > 0;
   const icons = [
     {
@@ -107,7 +107,7 @@ export default async function SingleProductPage({
               <AddToCartBtn product={product} className="w-full rounded-sm" />
             </div>
             <div className="w-auto">
-              <AddToWishListButton showProduct={true} product={product} />
+              <AddToWishListButton product={product} />
             </div>
           </div>
 

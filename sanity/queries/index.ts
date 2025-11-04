@@ -1,5 +1,4 @@
-import { Product } from "@/sanity.types";
-import { client } from "../lib/client";
+import { Blog } from "@/sanity.types";
 import { sanityFetch } from "../lib/live";
 import {
   BLOG_QUERY,
@@ -10,7 +9,6 @@ import {
   LATEST_BLOG_QUERY,
   MY_ORDER_QUERY,
 } from "./query";
-import { defaultConfig } from "next/dist/server/config-shared";
 import { SINGLE_BLOG_QUERY } from "./query";
 const getCategories = async (quantity?: number) => {
   try {
@@ -115,18 +113,19 @@ const getAllBlog = async () => {
   }
 };
 
-const getSingleBlog = async (slug: string) => {
+const getSingleBlog = async (blogSlug: string): Promise<Blog | null> => {
   try {
     const { data } = await sanityFetch({
       query: SINGLE_BLOG_QUERY,
-      params: { slug },
+      params: { slug: blogSlug },
     });
-    return data?.[0] ?? null; // لأن الاستعلام يرجع array
+    return data ?? null;
   } catch (error) {
-    console.log("Error fetching single blog", error);
+    console.error("❌ Error fetching single blog:", error);
     return null;
   }
 };
+
 const getDealProducts = async () => {
   try {
     const { data } = await sanityFetch({

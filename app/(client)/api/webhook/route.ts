@@ -1,7 +1,6 @@
 // ✅ الاستيراد في أعلى الملف فقط
 import stripe from "@/lib/stripe";
 import { backendClient } from "@/sanity/lib/backendClient";
-import { Metadata } from "next";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -9,9 +8,8 @@ import Stripe from "stripe";
 // ✅ دالة POST لمعالجة Webhook من Stripe
 export async function POST(req: NextRequest) {
   const body = await req.text();
-  const headerList = headers();
-  // @ts-expect-error
-  const sig = headerList.get("stripe-signature") as string | null;
+  const headerList = await headers();
+  const sig = headerList.get("stripe-signature");
 
   if (!sig) {
     return NextResponse.json(
@@ -29,7 +27,7 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    return NextResponse.json({ err: "Invalid signature" }, { status: 400 });
   }
 
   if (event.type === "checkout.session.completed") {
@@ -57,7 +55,7 @@ async function createOrderInSanity(
   session: Stripe.Checkout.Session,
   invoice: Stripe.Invoice | null
 ) {
-  const { id, amount_total, currency, payment_intent, total_details } = session;
+  const { id, amount_total, currency, payment_intent } = session;
   // تعريف نوع مخصص لبيانات الميتا التي تتوقعها
   type SessionMetadata = {
     orderNumber?: string;

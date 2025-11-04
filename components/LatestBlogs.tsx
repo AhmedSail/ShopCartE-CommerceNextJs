@@ -4,20 +4,20 @@ import { Title } from "./text";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
-import { getCategories } from "@/sanity/queries";
 import { Calendar } from "lucide-react";
 import dayjs from "dayjs";
+import { Blog } from "@/sanity.types";
 
 const LatestBlogs = async () => {
-  const blogs = await getLatestBlogs();
+  const blogs: Blog[] = await getLatestBlogs();
   return (
     <div>
       <Title className="text-2xl">Latest Blog</Title>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5 mt-5 ">
-        {blogs?.map((b) => (
+        {blogs.map((b: Blog) => (
           <div key={b._id} className="rounded-lg">
             {b?.mainImage && (
-              <Link href={`/blog/${b?.slug.current}`}>
+              <Link href={`/blog/${b?.slug?.current}`}>
                 <Image
                   src={urlFor(b?.mainImage).url()}
                   alt="blog image"
@@ -38,17 +38,17 @@ const LatestBlogs = async () => {
                       {item?.title}
                     </p>
                   ))}
-                  <span className="absolute left-0 -bottom-1 bg-lightcolor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect"></span>
+                  <span className="absolute left-0 -bottom-1 bg-lightcolor/30 inline-block w-full  group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect"></span>
                 </div>
                 <p className="flex items-center gap-1 text-lightcolor relative group hover:cursor-pointer hover:text-shop_dark_green hoverEffect">
                   <Calendar size={15} />{" "}
                   {dayjs(b?.publishedAt).format("MMMM D, YYYY")}
-                  <span className="absolute left-0 -bottom-1 bg-lightcolor/30 inline-block w-full h-[2px] group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect"></span>
+                  <span className="absolute left-0 -bottom-1 bg-lightcolor/30 inline-block w-full  group-hover:bg-shop_dark_green hover:cursor-pointer hoverEffect"></span>
                 </p>
                 <p></p>
               </div>
               <Link
-                href={`/blog/${b?.slug.current}`}
+                href={`/blog/${b?.slug?.current}`}
                 className="text-base font-semibold tracking-wide mt-5 line-clamp-2 hover:text-shop_dark_green hoverEffect"
               >
                 {b?.title}

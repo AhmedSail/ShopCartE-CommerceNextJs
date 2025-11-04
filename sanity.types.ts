@@ -164,14 +164,18 @@ export type Order = {
   email?: string;
   stripePaymentIntentId?: string;
   products?: Array<{
-    product?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "product";
-    };
     quantity?: number;
     _key: string;
+    product?: {
+      name?: string;
+      price?: number;
+      images?: Array<{
+        asset?: {
+          _ref: string;
+          _type: "reference";
+        };
+      }>;
+    };
   }>;
   totalPrice?: number;
   currency?: string;

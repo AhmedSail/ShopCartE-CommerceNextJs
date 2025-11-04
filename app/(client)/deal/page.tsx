@@ -1,11 +1,12 @@
 import Container from "@/components/Container";
 import ProductCard from "@/components/productCard";
 import { Title } from "@/components/text";
+import { Product } from "@/sanity.types";
 import { getDealProducts } from "@/sanity/queries";
 import React from "react";
 
 const DealPage = async () => {
-  const products = await getDealProducts();
+  const products: Product[] = await getDealProducts();
   return (
     <div className="py-10 bg-deal-bg mt-[80px]">
       <Container>

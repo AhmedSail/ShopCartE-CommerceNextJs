@@ -3,8 +3,13 @@ import { defineQuery } from "next-sanity";
 const BRAND_QUERY = defineQuery(`*[_type=='brand']|order(name asc)`);
 const BLOG_QUERY = defineQuery(`*[_type=='blog']|order(name asc)`);
 const SINGLE_BLOG_QUERY = defineQuery(`
-  *[_type == "blog" && slug.current == $slug][0]{
-    ...,
+  *[_type == "blog" && defined(slug.current) && slug.current == $slug][0]{
+    _id,
+    title,
+    description,
+    publishedAt,
+    mainImage,
+    body,
     blogcategories[]->{
       _id,
       title,
@@ -12,6 +17,7 @@ const SINGLE_BLOG_QUERY = defineQuery(`
     }
   }
 `);
+
 const BRAND_SINGLE_QUERY = defineQuery(
   `*[_type=='product' && slug.current == $slug] | order(name asc) {
     "brandName": brand->title
@@ -47,11 +53,19 @@ const GET_PRODUCT_BY_SLUG = defineQuery(
     description
   }`
 );
+
 const MY_ORDER_QUERY = defineQuery(
-  `*[_type=='order' && clerkUserId==$userId]|order(orderData desc){
-  ...,products[]{
-    ...,product->
-  }}`
+  `*[_type == "order" && clerkUserId == $userId]{
+  ...,
+  products[]{
+    quantity,
+    product->{
+      name,
+      price,
+      images
+    }
+  }
+}`
 );
 export {
   BRAND_QUERY,
