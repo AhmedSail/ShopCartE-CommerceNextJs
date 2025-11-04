@@ -57,19 +57,19 @@ async function createOrderInSanity(
   session: Stripe.Checkout.Session,
   invoice: Stripe.Invoice | null
 ) {
-  const {
-    id,
-    amount_total,
-    currency,
-    metadata,
-    payment_intent,
-    total_details,
-  } = session;
+  const { id, amount_total, currency, payment_intent, total_details } = session;
+  // تعريف نوع مخصص لبيانات الميتا التي تتوقعها
+  type SessionMetadata = {
+    orderNumber?: string;
+    customerName?: string;
+    customerEmail?: string;
+    clerkUserId?: string;
+    address?: string;
+  };
 
+  const metadata = session.metadata as SessionMetadata;
   const { orderNumber, customerName, customerEmail, clerkUserId, address } =
-    metadata as unknown as Metadata & {
-      address: string;
-    };
+    metadata;
 
   const lineItemsWithProduct = await stripe.checkout.sessions.listLineItems(
     id,
@@ -105,7 +105,7 @@ async function createOrderInSanity(
     customerName,
     email: customerEmail,
     clerkUserId,
-    address: JSON.parse(address), // تأكد إن address مرسل كـ JSON string من Stripe
+    address: address ? JSON.parse(address) : {},
     totalPrice: amount_total,
     currency,
     stripeCustomerId: session.customer || "", // fallback لو فاضي
